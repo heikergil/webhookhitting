@@ -3,8 +3,13 @@ const app = express();
 const mongoose = require('mongoose');
 const Cambio = require('./models/cambios');
 const axios = require('axios');
-const helpers = require('./helpers.js');
-console.log(helpers);
+
+
+function fechaUTC(dias=0) {
+  let fecha = new Date();
+  fecha.setUTCDate(fecha.getUTCDate() - dias);
+  return fecha
+}
 
 
 mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -15,11 +20,33 @@ db.once('open', function() {
   // we're connected!
 });
 
-    const datosCambio = {
-        moneda: 'EUR',
+    const datosCambio = [
+        {moneda: 'EUR',
         valor: 2.4,
-        fecha:new Date()
-    }
+        fecha:fechaUTC()},
+        {moneda: 'EUR',
+        valor: 2.3,
+        fecha:fechaUTC(1)},
+        {moneda: 'EUR',
+        valor: 2.4,
+        fecha:fechaUTC(2)},
+        {moneda: 'EUR',
+        valor: 2.5,
+        fecha:fechaUTC(3)},
+        {moneda: 'EUR',
+        valor: 2.6,
+        fecha:fechaUTC(4)},
+        
+    ]
+
+
+    datosCambio.forEach(element => {
+       console.log(element);
+      
+    });
+
+
+
 
 app.get('/', async (req, res) => {
     const data = JSON.stringify(datosCambio);

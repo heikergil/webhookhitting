@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const Cambio = require('./models/cambios');
 const axios = require('axios');
+const engine = require("ejs-mate");
+const path = require("path");
 
 
 function fechaUTC(dias=0) {
@@ -20,6 +22,12 @@ db.once('open', function() {
   // we're connected!
 });
 
+
+app.set("views", path.join(__dirname, "views"));
+app.engine("ejs", engine);
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+
     const datosCambio = [
         {moneda: 'EUR',
         valor: 2.4,
@@ -36,19 +44,19 @@ db.once('open', function() {
         {moneda: 'EUR',
         valor: 2.6,
         fecha:fechaUTC(4)},
-        
-    ]
-
-
-    datosCambio.forEach(element => {
-       console.log(element);
-      
-    });
-
+      ]
 
 
 
 app.get('/', async (req, res) => {
+
+  // const consultaValor = await Ingreso.find({"fecha" : {$gte: menos24horas, $lte: hora_actual}});
+
+
+
+
+
+
     const data = JSON.stringify(datosCambio);
     
     axios
@@ -62,7 +70,7 @@ app.get('/', async (req, res) => {
         .catch(
             (err) => console.error(`Error golpeando el webhook ${err}`));
            
-  res.send('Hello World!');
+  res.render('consulta');
 });
 
 

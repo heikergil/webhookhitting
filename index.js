@@ -48,29 +48,28 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.get('/', async (req, res) => {
+app.get('/consulta', async (req, res) => {
 
-  // const consultaValor = await Ingreso.find({"fecha" : {$gte: menos24horas, $lte: hora_actual}});
-
-
-
-
-
-
-    const data = JSON.stringify(datosCambio);
+  const datos = req.query
+    // const data = JSON.stringify(datosCambio);
     
-    axios
-        .post('https://webhook.site/fe1b3323-f455-429a-af7a-6ffb74e757ef', {
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-              body: data,
-        })
-        .then(console.log('success') )
-        .catch(
-            (err) => console.error(`Error golpeando el webhook ${err}`));
-           
-  res.render('consulta');
+    // axios
+    //     .post('https://webhook.site/fe1b3323-f455-429a-af7a-6ffb74e757ef', {
+    //         headers: {
+    //             'Content-Type': 'application/json; charset=UTF-8',
+    //           },
+    //           body: data,
+    //     })
+    //     .then(console.log('success') )
+    //     .catch(
+    //         (err) => console.error(`Error golpeando el webhook ${err}`));
+         if (Object.keys(datos).length > 0) {
+          res.send(datos)
+         } else {
+          res.send('make a request');
+         }
+         
+  ;
 });
 
 
